@@ -6,7 +6,8 @@
 
 using namespace std;
 
-vector<string> customSplit(string str, char separator) {
+vector<string> customSplit(string str, char separator)
+{
     int startIndex = 0, endIndex = 0;
     vector<string> strings;
     for (int i = 0; i <= str.size(); i++) {
@@ -24,35 +25,40 @@ vector<string> customSplit(string str, char separator) {
     return strings;
 }
 
-/**
- * https://cplusplus.com/forum/beginner/151894/
- * @author JLBorges
- * @param stm
- * @return
- */
-string stream_as_string( istream& stm )
-{
-    string str ;
-    char c;
-    while (stm.get(c)) {
-        str += c;
-    }
-    return str;
-}
 
 int main()
 {
-    // Step 0: Open the input file (not needed for when transferring to main code)
-    ifstream kisekaeFile("forms/KKL106.txt");
+    string filePath = "../forms/KKL106.txt";
+    // Step 0: Open the input file
+    ifstream kisekaeFile(filePath);
 
-    // Step 0.1: Read file contents into string
-    string kisekaeCode;
+    // Error check for if file exists
+    if (!kisekaeFile.is_open()) {
+        cerr << "Unable to open file: " << filePath << endl;
+        return 1;
+    }
+
+    // Step 0.1: Read file contents into string stream
+    stringstream buffer;
+    buffer << kisekaeFile.rdbuf();
+
+    // Step 0.2: Convert sstream to string
+    string kisekaeCode = buffer.str();
+    cout << "Code: " << kisekaeCode << endl << endl << endl;
+
+    // Step 0.3: Close the file
+    kisekaeFile.close();
 
     // Step 1: Split code into a vector of strings.
     vector<string> splitCode = customSplit(kisekaeCode, '_');
 
-    // Step 2: Parse the pieces
-    cout << "Hello, World!" << endl;
+    // Step 2: Parse the strings
+    for (auto item : splitCode) {
+        // Error Check
+        cout << item << endl;
+
+    }
+
     return 0;
 }
 
